@@ -5,6 +5,8 @@ from typing import List
 def check_type(func):
     def wrapper(self, value, *args, **kwargs):
         result = func(self, value, *args, **kwargs)
+        if self.value_type is None:
+            self.value_type = type(value)
         if self.value_type == type(value):
             return result
         else:
@@ -40,6 +42,7 @@ class SinglyLinkedList:
     def __init__(self, lst: List = None):
         self.length = 0
         self.head = self.last = None
+        self.value_type = None
         if lst is not None:
             self.value_type = type(lst[0])
             for elem in lst:
@@ -134,6 +137,8 @@ class SinglyLinkedList:
 if __name__ == '__main__':
     empty_linked_lst = SinglyLinkedList()
     print('empty_linked_lst:', empty_linked_lst)
+    empty_linked_lst.add_to_end(1);
+    print('empty_linked_lst:', empty_linked_lst)
     linked_lst = SinglyLinkedList([1, 2, 3])
     print('linked_lst:', linked_lst)
     print('length of linked_lst:', len(linked_lst))
@@ -147,5 +152,5 @@ if __name__ == '__main__':
     linked_lst.insert(5, 1)
     print('linked_lst after inserting 5 on 1st position:', linked_lst)
     linked_lst.delete(3)
-    print('linked_lst after removing 3:', linked_lst)
+    print('linked_lst after deleting 3:', linked_lst)
     print('linked_lst is empty:', linked_lst.is_empty())
